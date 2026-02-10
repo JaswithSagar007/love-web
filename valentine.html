@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Arial', sans-serif;
+    height: 100vh;
+    background: linear-gradient(to bottom, #ffd6e0, #ff9aa2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -50px;
+    font-size: 30px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.8;
+    pointer-events: none;
+    z-index: 1;
+}
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(0.8); opacity:0.9; }
+    100% { transform: translateY(-110vh) scale(1.4); opacity:0; }
+}
+
+/* Card */
+.card {
+    background: #fff;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 25px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    animation: pop 1s ease;
+    position: relative;
+    z-index: 2;
+}
+@keyframes pop { 
+    from { transform: scale(0.7); opacity:0; } 
+    to { transform: scale(1); opacity:1; } 
+}
+
+h1 { 
+    color: #ff4d6d; 
+    margin-bottom: 20px; 
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.scene { 
+    position: relative; 
+    height: 150px; 
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bridge-line { 
+    height: 4px; 
+    width: 100%; 
+    background: #ccc; 
+    border-radius: 20px; 
+    position: absolute; 
+    top: 60%; 
+}
+
+.characters {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 250px;
+    animation: floatHands 3s ease-in-out infinite alternate;
+}
+@keyframes floatHands { 
+    0% { transform: translateY(0); } 
+    50% { transform: translateY(-5px); } 
+    100% { transform: translateY(0); } 
+}
+
+.boy, .girl { 
+    width: 50px; 
+    height: 80px; 
+    border-radius: 15px; 
+    position: relative; 
+}
+.boy { background: #4d96ff; }
+.girl { background: #ff7aa2; }
+
+.head { 
+    width: 30px; 
+    height: 30px; 
+    background: #ffddb3; 
+    border-radius: 50%; 
+    position: absolute; 
+    top: -35px; 
+    left: 10px; 
+}
+
+.hand { 
+    width: 12px; 
+    height: 12px; 
+    background: #ffddb3; 
+    border-radius: 50%; 
+    position: absolute; 
+    top: 25%; 
+}
+.boy .hand { right: -15px; } 
+.girl .hand { left: -15px; }
+
+.buttons { 
+    margin-top: 30px; 
+    position: relative; 
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+button {
+    padding: 12px 30px;
+    font-size: 16px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+    position: absolute;
+}
+
+#yesBtn { 
+    background: #ff4d6d; 
+    color: white;
+    left: 50%;
+    transform: translateX(-50%);
+}
+#yesBtn:hover { transform: translateX(-50%) scale(1.05); }
+
+#noBtn { 
+    background: #eee; 
+    color: #333;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ff4d6d;
+    color: white;
+    padding: 40px 50px;
+    border-radius: 20px;
+    font-size: 20px;
+    display: none;
+    z-index: 9999;
+    text-align: center;
+    animation: popupFade 0.5s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+@keyframes popupFade { 
+    from { transform: translate(-50%, -50%) scale(0.7); opacity:0; } 
+    to { transform: translate(-50%, -50%) scale(1); opacity:1; } 
+}
+
+.hug-scene { 
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-end; 
+    margin-top: 20px; 
+    height: 120px;
+    gap: 20px;
+}
+
+.popup .boy-popup, .popup .girl-popup {
+    width: 50px; 
+    height: 80px; 
+    border-radius: 15px; 
+    position: relative;
+    transition: all 1s ease;
+}
+.popup .boy-popup { background: #4d96ff; }
+.popup .girl-popup { background: #ff7aa2; }
+
+.popup .head-popup { 
+    width: 30px; 
+    height: 30px; 
+    background: #ffddb3; 
+    border-radius: 50%; 
+    position: absolute; 
+    top: -35px; 
+    left: 10px; 
+}
+
+.hug { 
+    transform: translateX(0); 
+}
+
+.popup .boy-popup.hug { transform: translateX(20px); }
+.popup .girl-popup.hug { transform: translateX(-20px); }
+
+@media(max-width: 400px){
+    h1 { font-size: 24px; }
+    button { font-size: 14px; padding: 10px 25px; }
+    .popup { padding: 30px 40px; font-size: 18px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>Will you be my Valentine? 💖</h1>
+
+    <div class="scene">
+        <div class="bridge-line"></div>
+        <div class="characters">
+            <div class="boy"><div class="head"></div><div class="hand"></div></div>
+            <div class="girl"><div class="head"></div><div class="hand"></div></div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button id="yesBtn" onclick="yesClicked()">Yes 💞</button>
+        <button id="noBtn" onmouseover="moveNo()" ontouchstart="moveNo()">No 🙈</button>
+    </div>
+</div>
+
+<div class="popup" id="popup">
+    <div id="popupText">Yaaa! Happy Valentine, baby 💖</div>
+    <div class="hug-scene">
+        <div class="boy-popup"><div class="head-popup"></div></div>
+        <div class="girl-popup"><div class="head-popup"></div></div>
+    </div>
+</div>
+
+<script>
+// Floating hearts
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}, 400);
+
+// NO button logic
+let noCounter = 0;
+function moveNo() {
+    const noBtn = document.getElementById("noBtn");
+    const card = document.querySelector('.card');
+    const cardRect = card.getBoundingClientRect();
+    
+    // Random position within the card
+    const maxX = cardRect.width - noBtn.offsetWidth - 40;
+    const maxY = 60;
+    
+    noBtn.style.left = (Math.random() * maxX + 20) + "px";
+    noBtn.style.top = (Math.random() * maxY - 10) + "px";
+    
+    noCounter++;
+    if (noCounter >= 3) { 
+        showPopup("Not possible 😏", false); 
+        noCounter = 0; 
+    }
+}
+
+// YES button logic
+function yesClicked() {
+    showPopup("Yaaa! Happy Valentine, baby 💖", true);
+
+    // Heart burst effect
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "💖";
+            heart.style.left = "50vw";
+            heart.style.fontSize = (Math.random() * 30 + 20) + "px";
+            heart.style.animation = `floatUp ${Math.random() * 2 + 4}s linear`;
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }, i * 100);
+    }
+}
+
+// POPUP function
+function showPopup(text, hug = false) {
+    const popup = document.getElementById("popup");
+    const popupText = document.getElementById("popupText");
+    popup.style.display = "block";
+    popupText.innerText = text;
+
+    const boy = popup.querySelector('.boy-popup');
+    const girl = popup.querySelector('.girl-popup');
+
+    if (hug) {
+        setTimeout(() => {
+            boy.classList.add('hug');
+            girl.classList.add('hug');
+        }, 100);
+    }
+
+    setTimeout(() => {
+        popup.style.display = "none";
+        boy.classList.remove('hug');
+        girl.classList.remove('hug');
+    }, 3000);
+}
+</script>
+
+</body>
+</html>
